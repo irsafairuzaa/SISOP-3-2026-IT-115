@@ -52,6 +52,25 @@ getchar();
 
 send(sock , name , strlen(name) , 0 );
 
+while(1) {
+                printf("\n=== THE KNIGHTS CONSOLE ===\n");
+                printf("1. Check Active Entites (Users)\n");
+                printf("2. Check Server Uptime\n");
+                printf("3. Execute Emergency Shutdown\n");
+                printf("4. Disconnect\n");
+                printf("Command >> ");
+
+                char cmd[10];
+                fgets(cmd, 10, stdin);
+                cmd[strcspn(cmd, "\n")] = 0;
+
+                if (strcmp(cmd, "4") == 0) {
+                    printf("[System] Disconnecting from The Wired...\n");
+                    break;
+                }
+
+                send(sock, cmd, strlen(cmd), 0);
+
 pthread_t recv_thread;
 	if (pthread_create(&recv_thread, NULL, receive_message, (void*)&sock) < 0) {
 		perror("could not create thread");
@@ -66,4 +85,5 @@ char message[1024];
 	}
 
 return 0;
+}
 }
